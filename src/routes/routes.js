@@ -1,23 +1,24 @@
-const express = require('express');
-const User = require('../model/user');
+const express = require("express");
+const User = require("../model/user");
 const router = new express.Router();
 
 router
 // Creates new user record
-.post('/user', (req, res) => {
+.post("/user", (req, res) => {
     const user = new User(req.body);
 
     user.save(err => {
         if(!err) {
-            res.status(200).send({"message": "Record created successfully", user});
+            res.status(200).send({"message": "Record created successfully", "data":user});
         }else{
             res.status(500).send({"message": err});
         }
     })
 })
 // Reading of records
-.get('/user', (req, res) => {
-    const users = User.find({}, (err, foundUsers)=>{
+.get("/user", (req, res) => {
+
+    User.find({}, (err, foundUsers)=>{
         if(err){
             //Handles any server error
             res.status(500).send({"message": err});
@@ -27,11 +28,11 @@ router
             res.status(200).send({"message": "Record is empty"});
         }
         // returns available  users records
-        res.status(200).send({"message": "Records successfuly loaded",foundUsers});
+        res.status(200).send({"message": "Records successfuly loaded","data":foundUsers});
     });
 })
 
-.put('/user/:_id', (req, res) => {
+.put("/user/:_id", (req, res) => {
     //checking for invalid parameter entry
     const updates = Object.keys(req.body);
     const allowedUpdates = ["name", "email", "country"];
@@ -46,19 +47,19 @@ router
               res.status(400).send({"message": err});
           }
           
-         res.status(200).send({"message": "Record successfully Updated", updatedUser})
+         res.status(200).send({"message": "Record successfully Updated", "data": updatedUser})
               
           })
       
       
 })
 // deleting of user
-.delete('/user/:_id', (req, res) => {
+.delete("/user/:_id", (req, res) => {
     User.findByIdAndDelete(req.params._id, (err, deletedUser) => {
         if(err){
             res.status(400).send({"message": err});
         }
-        res.status(200).send({"message": "Record successfully deleted", deletedUser});
+        res.status(200).send({"message": "Record successfully deleted", "data": deletedUser});
     })
 })
 module.exports = router;

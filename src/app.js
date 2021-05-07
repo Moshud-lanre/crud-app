@@ -1,6 +1,6 @@
-require('./db/mongoose');
-const express = require('express');
-const Router = require('./routes/routes');
+require("./db/mongoose");
+const express = require("express");
+const Router = require("./routes/routes");
 
 
 const app = express();
@@ -12,5 +12,5 @@ app.use(Router);
 
 
 app.listen(port, () => {
-    console.log('Server started at port '+ port);
+    console.log("Server started at port "+ port);
 });
