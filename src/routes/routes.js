@@ -52,5 +52,13 @@ router
       
       
 })
-
+// deleting of user
+.delete('/user/:_id', (req, res) => {
+    User.findByIdAndDelete(req.params._id, (err, deletedUser) => {
+        if(err){
+            res.status(400).send({"message": err});
+        }
+        res.status(200).send({"message": "Record successfully deleted", deletedUser});
+    })
+})
 module.exports = router;
