@@ -11,7 +11,8 @@ router
         if(!err) {
             res.status(200).send({"message": "Record created successfully", "data":user});
         }else{
-            res.status(500).send({"message": err});
+            // res.status(500).send({"message": err});
+            console.log(err);
         }
     })
 })
