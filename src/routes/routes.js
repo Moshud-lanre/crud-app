@@ -3,7 +3,7 @@ const User = require("../model/user");
 const router = new express.Router();
 
 router
-// Creates new user record
+// Creates new user rsecord
 .post("/user", (req, res) => {
     const user = new User(req.body);
 
@@ -15,8 +15,8 @@ router
         }
     })
 })
-// Reading of records
-.get("/user", (req, res) => {
+// Reading of uses record
+.get("/users", (req, res) => {
 
     User.find({}, (err, foundUsers)=>{
         if(err){
@@ -25,7 +25,7 @@ router
         }
         // checks if the record is empty
         if(foundUsers.length === 0){
-            res.status(200).send({"message": "Record is empty"});
+            return res.status(200).send({"message": "Record is empty"});
         }
         // returns available  users records
         res.status(200).send({"message": "Records successfuly loaded","data":foundUsers});
@@ -61,5 +61,7 @@ router
         }
         res.status(200).send({"message": "Record successfully deleted", "data": deletedUser});
     })
-})
+});
+
+
 module.exports = router;
