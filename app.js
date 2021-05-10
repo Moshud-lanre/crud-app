@@ -98,7 +98,7 @@ app.put("/update/:_id", (req, res) => {
        User.findByIdAndUpdate(req.params._id, req.body, {new: true}, (err, updatedUser) => {
            //Handles wrong id case
           if(err){
-               return res.status(500).send({"message": "Invalid Id!"});
+               return res.status(400).send({"message": "Invalid Id!"});
           }
           // Handles case of Id not in database
           if (!updatedUser) {
@@ -117,7 +117,7 @@ app.delete("/delete/:_id", (req, res) => {
     User.findByIdAndDelete(req.params._id, (err, deletedUser) => {
         //Handles wrong id case
         if(err){
-           return res.status(500).send({"message": "Invalid Id!"});
+           return res.status(400).send({"message": "Invalid Id!"});
         }
 
         // Handles case of Id not in database 
