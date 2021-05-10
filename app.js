@@ -70,7 +70,7 @@ app.get("/users", (req, res) => {
 app.get("/user/:_id", (req,res) => {
     User.findById(req.params._id, (err, foundUser) => {
         if(err){
-            res.status(400).send({"message": err});
+            res.status(400).send({"message": "Record not not found, please check the Id and try again"});
         }
         res.status(200).send({"message": "Record loaded successfully", "data": foundUser});
     })
@@ -87,10 +87,11 @@ app.put("/user/:_id", (req, res) => {
     if(!isAllowed){
         return  res.status(400).send({"message": "Invalid Update!"});
       }
+
       // Updating of inputed parameter(s)
-       User.findByIdAndUpdate(req.params._id, req.body, {new: true}, (err, updatedUser) => {
+       User.findByIdAndUpdate(req.params._id, req.body, {new: true}, (err) => {
           if(err){
-              res.status(400).send({"message": err});
+              res.status(400).send({"message": "Record doesn't exist"});
           }
           
          res.status(200).send({"message": "Record successfully Updated"});
@@ -100,7 +101,7 @@ app.put("/user/:_id", (req, res) => {
       
 });
 
-// deleting of a user
+// deleting of a user record
 app.delete("/user/:_id", (req, res) => {
     User.findByIdAndDelete(req.params._id, (err, deletedUser) => {
         if(err){
