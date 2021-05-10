@@ -68,7 +68,7 @@ app.get("/users", (req, res) => {
 
 // Request to read the record of a user
 app.get("/user/:_id", (req,res) => {
-    User.findById(req.param._id, (err, foundUser) => {
+    User.findById(req.params._id, (err, foundUser) => {
         if(err){
             res.status(400).send({"message": err});
         }
