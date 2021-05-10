@@ -61,7 +61,7 @@ app.get("/users", (req, res) => {
         if(foundUsers.length === 0){
             return res.status(200).send({"message": "Record is empty"});
         }
-        // returns available  users records
+        // returns available  users record
         res.status(200).send({"message": "Records successfuly loaded","data":foundUsers});
     });
 });
@@ -69,15 +69,21 @@ app.get("/users", (req, res) => {
 // Request to read the record of a user
 app.get("/user/:_id", (req,res) => {
     User.findById(req.params._id, (err, foundUser) => {
+        // Handles wrong id
         if(err){
-            res.status(400).send({"message": "Record not not found, please check the Id and try again"});
+            return res.status(400).send({"message": "Invalid Id!"});
         }
+        // Handling the case of user id not in database
+        if(!foundUser){
+            return res.status(400).send({"message": "Record not found, please check the Id and try again"})
+        }
+        // Handles successfull request
         res.status(200).send({"message": "Record loaded successfully", "data": foundUser});
-    })
+    });
 });
 
 //Request to update the record of a user
-app.put("/user/:_id", (req, res) => {
+app.put("/update/:_id", (req, res) => {
 
     //checking for invalid parameter entry(keys)
     const updates = Object.keys(req.body);
@@ -89,11 +95,16 @@ app.put("/user/:_id", (req, res) => {
       }
 
       // Updating of inputed parameter(s)
-       User.findByIdAndUpdate(req.params._id, req.body, {new: true}, (err) => {
+       User.findByIdAndUpdate(req.params._id, req.body, {new: true}, (err, updatedUser) => {
+           //Handles wrong id case
           if(err){
-              res.status(400).send({"message": "Record doesn't exist"});
+               return res.status(500).send({"message": "Invalid Id!"});
           }
-          
+          // Handles case of Id not in database
+          if (!updatedUser) {
+              return res.status(400).send({"message": " Record not found"});
+          }
+          //  Handles successfull request 
          res.status(200).send({"message": "Record successfully Updated"});
               
           });
@@ -102,11 +113,18 @@ app.put("/user/:_id", (req, res) => {
 });
 
 // deleting of a user record
-app.delete("/user/:_id", (req, res) => {
+app.delete("/delete/:_id", (req, res) => {
     User.findByIdAndDelete(req.params._id, (err, deletedUser) => {
+        //Handles wrong id case
         if(err){
-            res.status(400).send({"message": err});
+           return res.status(500).send({"message": "Invalid Id!"});
         }
+
+        // Handles case of Id not in database 
+        if(!deletedUser){
+            return res.status(400).send({"message": "Unable to delete record, kindly check the Id and try again!"})
+        }
+        //Handles successfull request
         res.status(200).send({"message": "Record successfully deleted", "data": deletedUser});
     })
 });
