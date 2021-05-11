@@ -105,7 +105,7 @@ app.put("/update/:_id", (req, res) => {
               return res.status(400).send({"message": " Record not found"});
           }
           //  Handles successfull request 
-         res.status(200).send({"message": "Record successfully Updated"});
+         res.status(200).send({"message": "Record successfully Updated", "data": updatedUser});
               
           });
       
