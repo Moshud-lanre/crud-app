@@ -44,7 +44,10 @@ app.post("/user", (req, res) => {
     user.save(err => {
         if(!err) {
             res.status(200).send({"message": "Record created successfully", "data":user});
-        }else{
+        }else if (req.body.email) {
+            res.status(400).send({"message": "Email already exists!"});
+        }
+        else{
              res.status(500).send({"message": err});
            
         }
