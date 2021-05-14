@@ -44,6 +44,7 @@ app.post("/user", (req, res) => {
     user.save(err => {
         if(!err) {
             res.status(200).send({"message": "Record created successfully", "data":user});
+         // handles duplication of mail   
         }else if (req.body.email) {
             res.status(400).send({"message": "Email already exists!"});
         }
